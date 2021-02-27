@@ -1,4 +1,5 @@
 package myPackage;
+import java.util.Scanner;
 
 class Contact{
 
@@ -52,14 +53,42 @@ public class AddressBook {
 			System.out.println(contact[i]);
 		}
 	}
-
+	
 	public static void main(String[] args) {
 		System.out.println("Welcome To Address Book Problem\n");
 		
 		AddressBook address = new AddressBook();
 		address.details("Omkar", "Mali", "Palaspe", "Panvel", "Maharashtra", "4406716", "8817171", "omkar@gmail.com");
 		address.AddDetails();
+		
+		Scanner sc=new Scanner(System.in);		
+		System.out.println("Number Of Details to Add");
+		int numOfPerson=sc.nextInt();
+		String name=sc.nextLine();
+		for (int i = 1; i <= numOfPerson; i++) 
+		{
+			System.out.println("Enter no. of details of: "+i);
 
+			System.out.println("Enter FirstName");
+			String firstName=sc.next();
+			System.out.println("Enter LastName");
+			String lastName=sc.next();
+			System.out.println("Enter Area");
+			String area=sc.next();
+			System.out.println("Enter CityName");
+			String city=sc.next();
+			System.out.println("Enter StateName");
+			String state=sc.next();
+			System.out.println("Enter ZipCode");
+			String zip=sc.next();
+			System.out.println("Enter PhoneNumber");
+			String phoneNumber=sc.next();
+			System.out.println("Enter Email");
+			String email=sc.next();
+
+			address.details(firstName, lastName, area, city, state, zip, phoneNumber, email);
+			address.AddDetails();
+
+		}
 	}
-
 }
