@@ -130,7 +130,7 @@ public class AddressBook
 		String firstName=sc.next();
 		System.out.println("Enter LastName");
 		String lastName=sc.next();
-		System.out.println("Enter Area");
+		System.out.println("Enter Address");
 		String area=sc.next();
 		System.out.println("Enter CityName");
 		String city=sc.next();
@@ -145,7 +145,7 @@ public class AddressBook
 
 		list.add( new Contact(firstName, lastName, area, city, state, zip, phoneNumber, email));
 		System.out.println(list);
-		}
+	}
 	public static String editDetails() 
 	{
 
@@ -153,44 +153,64 @@ public class AddressBook
 		System.out.println("Enter First Name of Details to be Edited: ");
 		name = sc.next();
 
-				if (name.equals(list.get(0).getFirstName())) {
+		if (name.equals(list.get(0).getFirstName())) 
+		{
+			System.out.println("Enter FirstName");
+			list.get(0).setFirstName(sc.next());
+			System.out.println("Enter LastName");
+			list.get(0).setLastName(sc.next());
+			System.out.println("Enter Address");
+			list.get(0).setAddress(sc.next());
+			System.out.println("Enter CityName");
+			list.get(0).setCity(sc.next());
+			System.out.println("Enter StateName");
+			list.get(0).setState(sc.next());
+			System.out.println("Enter ZipCode");
+			list.get(0).setZip(sc.next());
+			System.out.println("Enter PhoneNumber");
+			list.get(0).setPhoneNumber(sc.next());
+			System.out.println("Enter Email");
+			list.get(0).setEmail(sc.next());
 
-					System.out.println("Enter FirstName");
-					list.get(0).setFirstName(sc.next());
-					System.out.println("Enter LastName");
-					list.get(0).setLastName(sc.next());
-					System.out.println("Enter Address");
-					list.get(0).setAddress(sc.next());
-					System.out.println("Enter CityName");
-					list.get(0).setCity(sc.next());
-					System.out.println("Enter StateName");
-					list.get(0).setState(sc.next());
-					System.out.println("Enter ZipCode");
-					list.get(0).setZip(sc.next());
-					System.out.println("Enter PhoneNumber");
-					list.get(0).setPhoneNumber(sc.next());
-					System.out.println("Enter Email");
-					list.get(0).setEmail(sc.next());
-
-					System.out.println(list.get(0));
-					return "Edited";
-				}else{
+			System.out.println(list.get(0));
+			return "Contact Edited";
+		}
+				else
+				{
 					return "Name Not Available in List";
 				}
-	}
+		}
+		public static String Delete() 
+		{
+			String name;
+			System.out.print("Enter FirstName");
+			name =sc.next();
+
+			if (name.equals(list.get(0).getFirstName())) 
+			{
+				list.remove(0);
+				return "Deleted";
+			}
+			else
+			{
+				return "Name Not Available in List";
+			}
+		}
 	
-	public static void main(String[] args) {
+	
+	public static void main(String[] args) 
+	{
 		System.out.println("Welcome To Address Book Problem\n");
 		
 		AddressBook address = new AddressBook();
 		
 		address.AddDetails();
 		
-		System.out.print("Do you want to Edit That Contact ? (y/n)");
+		System.out.print("Do you want to Delete this Contact ? (y/n)");
 		check=sc.next();
 		if(check.equalsIgnoreCase("y")) 
 		{
-			System.out.println(editDetails());
+			System.out.println(Delete());
 		}
 		else
 		{
