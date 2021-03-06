@@ -173,6 +173,20 @@ public class AddressBook
 			}
 		}
 	}
+	
+	public void Searchpersonwithstate()
+	{
+		System.out.println("Enter city for the contact info: ");
+		String city=sc.next();
+		for(int i=0;i<list.size();i++)
+		{
+			if(city.equals(list.get(i).getState()))
+			{
+				System.out.println(list.get(i));
+			}
+		}
+	}
+	
 	private void AddDetails()
 	{
 		System.out.println("How many contats do you want to enter? ");
@@ -271,6 +285,7 @@ public class AddressBook
 		address.defaultBook();
 		address.DefaultContact();
 		address.Searchpersonwithcity();
+		address.Searchpersonwithstate();
 		
 		System.out.print("1.Add AddressBook 2.Add Contact 3.Delete 4.Edit");
 		int check=sc.nextInt();
