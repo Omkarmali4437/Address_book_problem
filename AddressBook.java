@@ -1,18 +1,7 @@
 package myPackage;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map.Entry;
 
-class ContactAlreadyExistsException extends Exception
-{
-	public ContactAlreadyExistsException(String message)
-	{
-		super(message);
-	}
-}
 
 class Contact{
 
@@ -135,22 +124,55 @@ class Contact{
 public class AddressBook 
 {
 	static ArrayList<Contact> list = new ArrayList<Contact>();
-	public static AddressBook addressBook = new AddressBook();
-    public static HashMap<String, AddressBook> addressBooks = new HashMap<>();
+	public static AddressBook addressBook = new AddressBook(null);
     public static Contact contact=new Contact();
 
 	static Scanner sc = new Scanner(System.in);
-	    
-	public static void AddAddressBook(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter name of new address book");
-        String name = sc.nextLine() ;
-        addressBook  = new AddressBook();
-        addressBooks.put(name, addressBook) ;
-        System.out.println("New addressbook added ");       
-             
+	public static ArrayList<AddressBook> book = new ArrayList<>();
+
+
+	public AddressBook(String str) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public static void defaultBook() {
+        book.add(new AddressBook("default address book"));
+        book.add(new AddressBook("Address Book 1"));
+        book.add(new AddressBook("Address Book 2"));
     }
 	
+	public void DefaultContact()
+	{
+		book.get(0).list.add(new Contact("omkar", "mali", "palaspe", "mumbai", "maharastra", "4000129", "90290642", "omkar@gmail.com"));
+		book.get(0).list.add(new Contact("sumit", "wagh", "tilaknagar", "mumbai", "maharastra", "400089", "816979161", "sumit@gmail.com"));
+		book.get(1).list.add(new Contact("surendra", "chouhan", "wadala", "mumbai", "maharastra", "4000012", "8181818818", "surendra@gmail.com"));
+		book.get(1).list.add(new Contact("nikhil", "tiwari", "wadala", "thane", "maharastra", "4000012", "1121221", "nikhil@gmail.com"));
+		book.get(2).list.add(new Contact("gaurav", "purao", "kohinoor", "thane", "maharastra", "4040091", "82828882", "gaurav@gmail.com"));
+		for(int i=0;i<book.size();i++)
+		{
+			System.out.println(list.get(i));
+		}
+	}
+	
+
+    public static void addAddressBook() {
+        System.out.print("Enter name of new Address Book: ");
+        String str=sc.next();
+        book.add(new AddressBook(str));
+    }
+    
+	public void Searchpersonwithcity()
+	{
+		System.out.println("Enter city for the contact info: ");
+		String city=sc.next();
+		for(int i=0;i<list.size();i++)
+		{
+			if(city.equals(list.get(i).getCity()))
+			{
+				System.out.println(list.get(i));
+			}
+		}
+	}
 	private void AddDetails()
 	{
 		System.out.println("How many contats do you want to enter? ");
@@ -245,25 +267,30 @@ public class AddressBook
 	{
 		System.out.println("Welcome To Address Book Problem\n");
 		
-		AddressBook address = new AddressBook();
-	//	AddAddressBook();
-		address.AddDetails();
+		AddressBook address = new AddressBook(null);
+		address.defaultBook();
+		address.DefaultContact();
+		address.Searchpersonwithcity();
 		
-		System.out.print("1.Add AddressBook 2.Delete 3.Edit");
+		System.out.print("1.Add AddressBook 2.Add Contact 3.Delete 4.Edit");
 		int check=sc.nextInt();
 		switch(check)
 		{
 		case 1:
-			AddAddressBook();
+			addAddressBook();
 			break;
 		case 2:
+			address.AddDetails();
+			
+			break;
+		case  3:
 			Delete();
 			for(int i=0; i<list.size(); i++)
 			{
 					System.out.println(list.get(i));
 			}
 			break;
-		case  3:
+		case 4:
 			Edit();
 			for(int i=0; i<list.size(); i++)
 			{
@@ -272,30 +299,6 @@ public class AddressBook
 			break;
 		}
 			
-//		}
-//		else
-//		{
-//			System.out.println("Done");
-//		}
-//		for(int i=0; i<list.size(); i++)
-//		{
-//			System.out.println(list.get(i));
-//		}
-//		System.out.print("Do you want to Delete this Contact ? (y/n)");
-//		check=sc.next();
-//		if(check.equalsIgnoreCase("y")) 
-//		{
-//			System.out.println(Delete());
-//		}
-//		else
-//		{
-//			System.out.println("Done");
-//		}
-//		for(int i=0; i<list.size(); i++)
-//		{
-//			System.out.println(list.get(i));
-//		}
-//		
 	}
 }
 
