@@ -133,6 +133,7 @@ public class AddressBook
 	public static ArrayList<AddressBook> book = new ArrayList<>();
 	public HashMap<String,String> citydict=new HashMap<>();
 	public HashMap<String,String> statedict=new HashMap<>();
+	public int count=0;
 	
 	public AddressBook(String str) {
 			}
@@ -150,10 +151,6 @@ public class AddressBook
 		book.get(1).list.add(new Contact("surendra", "chouhan", "wadala", "mumbai", "rajastan", "4000012", "8181818818", "surendra@gmail.com"));
 		book.get(1).list.add(new Contact("nikhil", "tiwari", "wadala", "thane", "bihar", "4000012", "1121221", "nikhil@gmail.com"));
 		book.get(2).list.add(new Contact("gaurav", "purao", "kohinoor", "thane", "tamilnadu", "4040091", "82828882", "gaurav@gmail.com"));
-		for(int i=0;i<book.size();i++)
-		{
-			System.out.println(list.get(i));
-		}
 	}
 	
 
@@ -178,11 +175,11 @@ public class AddressBook
 	
 	public void Searchpersonwithstate()
 	{
-		System.out.println("Enter city for the contact info: ");
-		String city=sc.next();
+		System.out.println("Enter state for the contact info: ");
+		String state=sc.next();
 		for(int i=0;i<list.size();i++)
 		{
-			if(city.equals(list.get(i).getState()))
+			if(state.equals(list.get(i).getState()))
 			{
 				System.out.println(list.get(i));
 			}
@@ -206,8 +203,11 @@ public class AddressBook
 			if(city.equals(entry.getValue()))
 			{
 				System.out.println("Names form "+entry.getValue()+" city are: "+entry.getKey());
+				count+=1;
 			}
 		}
+		System.out.println("Count of contacts in "+city+" city is: "+count);
+		
 	}
 	
 	public void PersonStateDictionary()
@@ -220,15 +220,17 @@ public class AddressBook
 				statedict.put(name, contact.getState());
 			}
 		}
-		System.out.println("Enter the city name to search for contacts: ");
+		System.out.println("Enter the state name to search for contacts: ");
 		String state=sc.next();
 		for(Entry<String, String> entry:statedict.entrySet())
 		{
 			if(state.equals(entry.getValue()))
 			{
-				System.out.println("Names form"+entry.getValue()+"State is: "+entry.getKey());
+				System.out.println("Names form "+entry.getValue()+" State is: "+entry.getKey());
+				count+=1;
 			}
 		}
+		System.out.println("Count of contacts in "+state+" state is: "+count);
 	}
 	
 	private void AddDetails()
@@ -328,12 +330,11 @@ public class AddressBook
 		AddressBook address = new AddressBook(null);
 		address.defaultBook();
 		address.DefaultContact();
-//		address.Searchpersonwithcity();
-//		address.Searchpersonwithstate();
-		address.PersonCityDictionary();
-		address.PersonStateDictionary();
-		System.out.print("1.Add AddressBook 2.Add Contact 3.Delete 4.Edit");
+		System.out.print("1.Add AddressBook 2.Add Contact 3.Delete 4.Edit\n"
+				+ "5.Search for contacts based on city 6.Search for contacts based on state\n"
+				+ "7.To see name of a person based on city 8.To see name of a person based on state\n");
 		int check=sc.nextInt();
+		
 		switch(check)
 		{
 		case 1:
@@ -357,6 +358,20 @@ public class AddressBook
 					System.out.println(list.get(i));
 			}
 			break;
+		case 5:
+			address.Searchpersonwithcity();
+			break;
+		case 6:
+			address.Searchpersonwithstate();
+			break;
+		case 7:
+			address.PersonCityDictionary();
+			break;
+		case 8:
+			address.PersonStateDictionary();
+			break;
+		default:
+			System.out.println("Wrong input");
 		}
 			
 	}
