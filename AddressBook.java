@@ -1,5 +1,7 @@
 package myPackage;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 
@@ -129,11 +131,11 @@ public class AddressBook
 
 	static Scanner sc = new Scanner(System.in);
 	public static ArrayList<AddressBook> book = new ArrayList<>();
-
-
+	public HashMap<String,String> citydict=new HashMap<>();
+	public HashMap<String,String> statedict=new HashMap<>();
+	
 	public AddressBook(String str) {
-		// TODO Auto-generated constructor stub
-	}
+			}
 
 	public static void defaultBook() {
         book.add(new AddressBook("default address book"));
@@ -145,9 +147,9 @@ public class AddressBook
 	{
 		book.get(0).list.add(new Contact("omkar", "mali", "palaspe", "mumbai", "maharastra", "4000129", "90290642", "omkar@gmail.com"));
 		book.get(0).list.add(new Contact("sumit", "wagh", "tilaknagar", "mumbai", "maharastra", "400089", "816979161", "sumit@gmail.com"));
-		book.get(1).list.add(new Contact("surendra", "chouhan", "wadala", "mumbai", "maharastra", "4000012", "8181818818", "surendra@gmail.com"));
-		book.get(1).list.add(new Contact("nikhil", "tiwari", "wadala", "thane", "maharastra", "4000012", "1121221", "nikhil@gmail.com"));
-		book.get(2).list.add(new Contact("gaurav", "purao", "kohinoor", "thane", "maharastra", "4040091", "82828882", "gaurav@gmail.com"));
+		book.get(1).list.add(new Contact("surendra", "chouhan", "wadala", "mumbai", "rajastan", "4000012", "8181818818", "surendra@gmail.com"));
+		book.get(1).list.add(new Contact("nikhil", "tiwari", "wadala", "thane", "bihar", "4000012", "1121221", "nikhil@gmail.com"));
+		book.get(2).list.add(new Contact("gaurav", "purao", "kohinoor", "thane", "tamilnadu", "4040091", "82828882", "gaurav@gmail.com"));
 		for(int i=0;i<book.size();i++)
 		{
 			System.out.println(list.get(i));
@@ -183,6 +185,48 @@ public class AddressBook
 			if(city.equals(list.get(i).getState()))
 			{
 				System.out.println(list.get(i));
+			}
+		}
+	}
+	
+	public void PersonCityDictionary()
+	{
+		for(AddressBook address: book)
+		{
+			for(Contact contact:address.list)
+			{
+				String name=contact.getFirstName();
+				citydict.put(name, contact.getCity());
+			}
+		}
+		System.out.println("Enter the city name to search for contacts: ");
+		String city=sc.next();
+		for(Entry<String, String> entry:citydict.entrySet())
+		{
+			if(city.equals(entry.getValue()))
+			{
+				System.out.println("Names form "+entry.getValue()+" city are: "+entry.getKey());
+			}
+		}
+	}
+	
+	public void PersonStateDictionary()
+	{
+		for(AddressBook address: book)
+		{
+			for(Contact contact:address.list)
+			{
+				String name=contact.getFirstName();
+				statedict.put(name, contact.getState());
+			}
+		}
+		System.out.println("Enter the city name to search for contacts: ");
+		String state=sc.next();
+		for(Entry<String, String> entry:statedict.entrySet())
+		{
+			if(state.equals(entry.getValue()))
+			{
+				System.out.println("Names form"+entry.getValue()+"State is: "+entry.getKey());
 			}
 		}
 	}
@@ -284,9 +328,10 @@ public class AddressBook
 		AddressBook address = new AddressBook(null);
 		address.defaultBook();
 		address.DefaultContact();
-		address.Searchpersonwithcity();
-		address.Searchpersonwithstate();
-		
+//		address.Searchpersonwithcity();
+//		address.Searchpersonwithstate();
+		address.PersonCityDictionary();
+		address.PersonStateDictionary();
 		System.out.print("1.Add AddressBook 2.Add Contact 3.Delete 4.Edit");
 		int check=sc.nextInt();
 		switch(check)
