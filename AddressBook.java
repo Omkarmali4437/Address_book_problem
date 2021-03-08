@@ -1,8 +1,12 @@
 package myPackage;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 
 class Contact{
@@ -233,6 +237,8 @@ public class AddressBook
 		System.out.println("Count of contacts in "+state+" state is: "+count);
 	}
 	
+	
+	
 	private void AddDetails()
 	{
 		System.out.println("How many contats do you want to enter? ");
@@ -267,10 +273,14 @@ public class AddressBook
 				System.out.println("You have already entered this contact");
 				break;
 			}
-			addressBook.toString();
 		}	
-		addressBook.toString();
+		Comparator<Contact> list1 = Comparator.comparing(Contact::getFirstName);
+		System.out.println("\n After Sorting the contact details are: \n");		
+		list.stream()
+        .sorted(list1)
+        .forEach(System.out::println);
 	}
+	
 	
 	public static String Edit() 
 	{
@@ -342,7 +352,7 @@ public class AddressBook
 			break;
 		case 2:
 			address.AddDetails();
-			
+			//address.sortEnteries();
 			break;
 		case  3:
 			Delete();
