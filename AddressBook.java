@@ -281,6 +281,25 @@ public class AddressBook
         .forEach(System.out::println);
 	}
 	
+	public void sortbyCity()
+	{
+		Comparator<Contact> list1 = Comparator.comparing(Contact::getState);
+		System.out.println("\n After Sorting the contact details by city : \n");		
+		list.stream()
+        .sorted(list1)
+        .forEach(System.out::println);
+
+	}
+	
+	public void sortbyState()
+	{
+		Comparator<Contact> list1 = Comparator.comparing(Contact::getCity);
+		System.out.println("\n After Sorting the contact details by State : \n");		
+		list.stream()
+        .sorted(list1)
+        .forEach(System.out::println);
+
+	}
 	
 	public static String Edit() 
 	{
@@ -352,7 +371,6 @@ public class AddressBook
 			break;
 		case 2:
 			address.AddDetails();
-			//address.sortEnteries();
 			break;
 		case  3:
 			Delete();
@@ -383,6 +401,8 @@ public class AddressBook
 		default:
 			System.out.println("Wrong input");
 		}
+		address.sortbyCity();
+		address.sortbyState();
 			
 	}
 }
