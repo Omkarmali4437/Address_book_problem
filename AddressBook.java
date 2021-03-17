@@ -359,7 +359,7 @@ public class AddressBook
 			try {
 				address.AddDetails();
 				address.writeData();
-				//address.readData();
+				address.readData();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
