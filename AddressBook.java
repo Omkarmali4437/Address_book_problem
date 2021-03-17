@@ -155,15 +155,15 @@ public class AddressBook
         book.add(new AddressBook("Address Book 2"));
     }
 	
-//	public void DefaultContact()
-//	{
-//		book.get(0).list.add(new Contact("arjun", "bhanushali", "lalbaug", "mumbai", "maharashtra", "400014", "77187642", "arajun@gmail.com"));
-//		book.get(0).list.add(new Contact("sumit", "wagh", "tilaknagar", "mumbai", "maharashtra", "400089", "816979161", "sumit@gmail.com"));
-//		book.get(1).list.add(new Contact("surendra", "chouhan", "wadala", "mumbai", "rajastan", "4000012", "8181818818", "surendra@gmail.com"));
-//		book.get(1).list.add(new Contact("nikhil", "tiwari", "wadala", "thane", "bihar", "4000012", "1121221", "nikhil@gmail.com"));
-//		book.get(2).list.add(new Contact("gaurav", "purao", "kohinoor", "thane", "tamilnadu", "4040091", "82828882", "gaurav@gmail.com"));
-//	}
-//	
+	public void DefaultContact()
+	{
+		book.get(0).list.add(new Contact("arjun", "bhanushali", "lalbaug", "mumbai", "maharashtra", "400014", "77187642", "arajun@gmail.com"));
+		book.get(0).list.add(new Contact("sumit", "wagh", "tilaknagar", "mumbai", "maharashtra", "400089", "816979161", "sumit@gmail.com"));
+		book.get(1).list.add(new Contact("surendra", "chouhan", "wadala", "mumbai", "rajastan", "4000012", "8181818818", "surendra@gmail.com"));
+		book.get(1).list.add(new Contact("nikhil", "tiwari", "wadala", "thane", "bihar", "4000012", "1121221", "nikhil@gmail.com"));
+		book.get(2).list.add(new Contact("gaurav", "purao", "kohinoor", "thane", "tamilnadu", "4040091", "82828882", "gaurav@gmail.com"));
+	}
+	
 
     public static void addAddressBook() {
         System.out.print("Enter name of new Address Book: ");
@@ -343,7 +343,7 @@ public class AddressBook
 		
 		AddressBook address = new AddressBook(null);
 		address.defaultBook();
-		//address.DefaultContact();
+		address.DefaultContact();
 		System.out.print("1.Add AddressBook 2.Add Contact 3.Delete 4.Edit\n"
 				+ "5.Search for contacts based on city 6.Search for contacts based on state\n"
 				+ "7.To see name of a person based on city 8.To see name of a person based on state\n"
