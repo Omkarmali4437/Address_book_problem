@@ -8,7 +8,11 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.*;
+import java.net.URI;
 
 class Contact{
 
@@ -119,7 +123,7 @@ class Contact{
 
 	public String toString(){
 
-		return "Details of: "+ firstName+ " "+lastName+"\n"
+		return "\nDetails of: "+ firstName+ " "+lastName+"\n"
 									+"Address: "+address+"\n"
 									+"City: "+city+"\n"
 									+"State: "+state+"\n"
@@ -140,6 +144,8 @@ public class AddressBook
 	public HashMap<String,String> citydict=new HashMap<>();
 	public HashMap<String,String> statedict=new HashMap<>();
 	
+	public Path path=Paths.get("C://Users//DELL//Development//Eclipseworkspace//AddressBook/addressbook.txt");
+	
 	public AddressBook(String str) {
 			}
 
@@ -149,15 +155,15 @@ public class AddressBook
         book.add(new AddressBook("Address Book 2"));
     }
 	
-	public void DefaultContact()
-	{
-		book.get(0).list.add(new Contact("omkar", "mali", "palaspe", "mumbai", "maharashtra", "4000129", "90290642", "omkar@gmail.com"));
-		book.get(0).list.add(new Contact("sumit", "wagh", "tilaknagar", "mumbai", "maharashtra", "400089", "816979161", "sumit@gmail.com"));
-		book.get(1).list.add(new Contact("surendra", "chouhan", "wadala", "mumbai", "rajastan", "4000012", "8181818818", "surendra@gmail.com"));
-		book.get(1).list.add(new Contact("nikhil", "tiwari", "wadala", "thane", "bihar", "4000012", "1121221", "nikhil@gmail.com"));
-		book.get(2).list.add(new Contact("gaurav", "purao", "kohinoor", "thane", "tamilnadu", "4040091", "82828882", "gaurav@gmail.com"));
-	}
-	
+//	public void DefaultContact()
+//	{
+//		book.get(0).list.add(new Contact("arjun", "bhanushali", "lalbaug", "mumbai", "maharashtra", "400014", "77187642", "arajun@gmail.com"));
+//		book.get(0).list.add(new Contact("sumit", "wagh", "tilaknagar", "mumbai", "maharashtra", "400089", "816979161", "sumit@gmail.com"));
+//		book.get(1).list.add(new Contact("surendra", "chouhan", "wadala", "mumbai", "rajastan", "4000012", "8181818818", "surendra@gmail.com"));
+//		book.get(1).list.add(new Contact("nikhil", "tiwari", "wadala", "thane", "bihar", "4000012", "1121221", "nikhil@gmail.com"));
+//		book.get(2).list.add(new Contact("gaurav", "purao", "kohinoor", "thane", "tamilnadu", "4040091", "82828882", "gaurav@gmail.com"));
+//	}
+//	
 
     public static void addAddressBook() {
         System.out.print("Enter name of new Address Book: ");
@@ -206,7 +212,7 @@ public class AddressBook
 	}
 	
 	
-	private void AddDetails()
+	private void AddDetails() throws IOException
 	{
 		System.out.println("How many contats do you want to enter? ");
 		int num=sc.nextInt();
@@ -246,6 +252,18 @@ public class AddressBook
 		list.stream()
         .sorted(list1)
         .forEach(System.out::println);
+	}
+	
+	public void writeData() throws IOException{
+		StringBuffer buffer=new StringBuffer();
+		
+		for(int i=0;i<list.size();i++) {
+			Files.write(path,list.toString().getBytes());
+		}
+	}
+
+	public void readData() throws IOException {
+		Files.lines(path).forEach(System.out::println);
 	}
 	
 	public void sortbyCity()
@@ -325,10 +343,11 @@ public class AddressBook
 		
 		AddressBook address = new AddressBook(null);
 		address.defaultBook();
-		address.DefaultContact();
+		//address.DefaultContact();
 		System.out.print("1.Add AddressBook 2.Add Contact 3.Delete 4.Edit\n"
 				+ "5.Search for contacts based on city 6.Search for contacts based on state\n"
-				+ "7.To see name of a person based on city 8.To see name of a person based on state\n");
+				+ "7.To see name of a person based on city 8.To see name of a person based on state\n"
+				+ "9.Sort by City 10.Sort by State\n");
 		int check=sc.nextInt();
 		
 		switch(check)
@@ -337,9 +356,13 @@ public class AddressBook
 			addAddressBook();
 			break;
 		case 2:
-			address.AddDetails();
-			address.sortbyCity();
-			address.sortbyState();
+			try {
+				address.AddDetails();
+				address.writeData();
+				//address.readData();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			break;
 		case  3:
 			Delete();
@@ -366,6 +389,12 @@ public class AddressBook
 			break;
 		case 8:
 			address.PersonStateDictionary();
+			break;
+		case 9:
+			address.sortbyCity();
+			break;
+		case 10:
+			address.sortbyState();
 			break;
 		default:
 			System.out.println("Wrong input");
