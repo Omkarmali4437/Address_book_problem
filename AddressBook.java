@@ -13,7 +13,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.io.*;
 import java.net.URI;
-
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONAware;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 
 class Contact{
 
@@ -130,7 +137,7 @@ class Contact{
 									+"State: "+state+"\n"
 									+"Zip: "+zip+"\n"
 									+"Phone Number: "+phoneNumber+"\n"
-									+"Email: "+email;
+									+"Email: "+email+"\n";
 	}
 }
 
@@ -147,9 +154,10 @@ public class AddressBook
 	
 	public Path path=Paths.get("C://Users//DELL//Development//Eclipseworkspace//AddressBook/addressbook.txt");
 	public static final String csv_path="C://Users//DELL//Development//Eclipseworkspace//AddressBook/AddressBook.csv";
-	
-			public AddressBook(String str) {
-			}
+	public static final String json_file="C://Users//DELL//Development//Eclipseworkspace//AddressBook/AddressBook.json";
+			
+	public AddressBook(String str) {
+		}
 
 	public static void defaultBook() {
         book.add(new AddressBook("default address book"));
@@ -272,7 +280,6 @@ public class AddressBook
 		FileWriter fileWriter = null;
 		try {
 			fileWriter = new FileWriter(csv_path);
-		   
 			fileWriter.append("First Name, Last Name, Address, City, State, Zip, Phone-Number, Email\n");
 			for(Contact u: list) {
 			fileWriter.append(String.valueOf(u.getFirstName()));
@@ -325,6 +332,37 @@ public class AddressBook
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void writeintoJsonFile() throws IOException{
+		JSONObject obj=new JSONObject();
+		try {
+			for(Contact c: list) {
+				obj.put("First name: ", c.getFirstName());
+				obj.put("Last name: ",c.getLastName());
+				obj.put("Address: ",c.getAddress());
+				obj.put("City: ", c.getCity());
+				obj.put("State: ", c.getState());
+				obj.put("Zipcode: ", c.getZip());
+				obj.put("Phone-number: ", c.getPhoneNumber());
+				obj.put("Email: ", c.getEmail());
+				FileWriter writer=new FileWriter(json_file);
+				writer.write(obj.toJSONString());
+				writer.flush();
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void readfromJsonFile()throws IOException{
+		FileReader reader=new FileReader(json_file);
+		JSONParser jparse=new JSONParser();
+		try {
+			System.out.println(jparse.parse(reader));
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		}
+	}
 	public void sortbyCity()
 	{
 		Comparator<Contact> list1 = Comparator.comparing(Contact::getState);
@@ -396,6 +434,38 @@ public class AddressBook
 		}
 	}
 	
+	public void choiceWriteRead() {
+		AddressBook address = new AddressBook(null);
+		address.defaultBook();
+		System.out.println("1.To write to .txt file, \n"
+				+ "2.To write to .csv file, \n"
+				+ "3.To write to .json.file");
+		int num=sc.nextInt();
+		try {	
+			switch(num)
+			{
+				case 1:
+					address.writeData();
+					address.readData();
+					break;
+				case 2:
+					address.writeDataintoCSV();
+					address.readDatafromCsv();
+					break;
+				case 3:
+					address.writeintoJsonFile();
+					address.readfromJsonFile();
+					break;
+				default:
+					System.out.println("Wrong input please enter again");
+					address.choiceWriteRead();
+					break;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main(String[] args) 
 	{
 		System.out.println("Welcome To Address Book Problem\n");
@@ -417,10 +487,7 @@ public class AddressBook
 		case 2:
 			try {
 				address.AddDetails();
-				address.writeData();
-				address.writeDataintoCSV();
-				address.readData();
-				address.readDatafromCsv();
+				address.choiceWriteRead();	
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
