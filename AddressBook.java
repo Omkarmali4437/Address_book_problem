@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.io.*;
 import java.net.URI;
 
+
 class Contact{
 
 	private String firstName;
@@ -145,8 +146,9 @@ public class AddressBook
 	public HashMap<String,String> statedict=new HashMap<>();
 	
 	public Path path=Paths.get("C://Users//DELL//Development//Eclipseworkspace//AddressBook/addressbook.txt");
+	public static final String csv_path="C://Users//DELL//Development//Eclipseworkspace//AddressBook/AddressBook.csv";
 	
-	public AddressBook(String str) {
+			public AddressBook(String str) {
 			}
 
 	public static void defaultBook() {
@@ -266,6 +268,63 @@ public class AddressBook
 		Files.lines(path).forEach(System.out::println);
 	}
 	
+	public void writeDataintoCSV() throws IOException{
+		FileWriter fileWriter = null;
+		try {
+			fileWriter = new FileWriter(csv_path);
+		   
+			fileWriter.append("First Name, Last Name, Address, City, State, Zip, Phone-Number, Email\n");
+			for(Contact u: list) {
+			fileWriter.append(String.valueOf(u.getFirstName()));
+		    fileWriter.append(",");
+		    fileWriter.append(u.getLastName());
+		    fileWriter.append(",");
+		    fileWriter.append(u.getAddress());
+		    fileWriter.append(",");
+		    fileWriter.append(u.getCity());
+		    fileWriter.append(",");
+		    fileWriter.append(u.getState());
+		    fileWriter.append(",");
+		    fileWriter.append(u.getZip());
+		    fileWriter.append(",");
+		    fileWriter.append(u.getPhoneNumber());
+		    fileWriter.append(",");
+		    fileWriter.append(u.getEmail());
+		    fileWriter.append(",");
+		    fileWriter.append("\n");
+		  }
+		} catch (Exception ex) {
+		   ex.printStackTrace();
+		} finally {
+			try {
+				fileWriter.flush();
+				fileWriter.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+	}
+	
+	public void readDatafromCsv() throws IOException{
+		 BufferedReader reader = null;
+		try {
+			String line = "";
+			reader=new BufferedReader(new FileReader(csv_path));
+			reader.readLine();
+			for(Contact c:list) {
+				System.out.printf("[FirstName=%s, LastName=%s, Address=%s, City=%s, State=%s, Zip=%s, Phone-Number=%s, Email=%s ]\n", c.getFirstName(), c.getLastName(),c.getAddress(),c.getCity(),c.getState(),c.getZip(),c.getPhoneNumber(),c.getEmail());
+			}
+		}catch (Exception ex) {
+			   ex.printStackTrace();
+		} finally {
+			try {
+				reader.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+			}
+		}
+	}
+	
 	public void sortbyCity()
 	{
 		Comparator<Contact> list1 = Comparator.comparing(Contact::getState);
@@ -359,7 +418,9 @@ public class AddressBook
 			try {
 				address.AddDetails();
 				address.writeData();
+				address.writeDataintoCSV();
 				address.readData();
+				address.readDatafromCsv();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
