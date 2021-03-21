@@ -14,6 +14,7 @@ import com.opencsv.bean.*;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.google.gson.*;
+import org.json.simple.JSONObject;
 
 
 public class AddressBook {
@@ -161,7 +162,7 @@ public class AddressBook {
         mappingStrategy.setType(Contact.class);
 
         String[] columns = new String[]
-                { "FirstName", "Lastname", "Address", "City", "State", "ZipCode", "PhoneNumber", "Email" };
+                { "FirstName", "LastName", "Address", "City", "State", "Zip", "PhoneNumber", "Email" };
 
         mappingStrategy.setColumnMapping(columns);
 
@@ -179,7 +180,6 @@ public class AddressBook {
     }
 
     public void readDatafromCsv() throws IOException{
-
         try {
             CSVReader reader = new CSVReader(new FileReader(csv_path));
             List<String[]> r = reader.readAll();
@@ -191,22 +191,22 @@ public class AddressBook {
 
     @SuppressWarnings("unchecked")
     public void writeintoJsonFile() throws IOException{
+        JSONObject obj=new JSONObject();
         try {
-            Reader reader=Files.newBufferedReader(Paths.get(json_file));
-            CsvToBeanBuilder<CSVContact> csvToBeanBuilder=new CsvToBeanBuilder<>(reader);
-            csvToBeanBuilder.withType(CSVContact.class);
-            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-            CsvToBean<CSVContact> csvToBean=csvToBeanBuilder.build();
-            List<CSVContact> csv=csvToBean.parse();
-            Gson gson=new Gson();
-            String json=gson.toJson(csv);
-            FileWriter writer=new FileWriter(json_file);
-            writer.write(json);
-            writer.close();
-            BufferedReader br=new BufferedReader(new FileReader(json_file));
-            CSVContact[] usrobj=gson.fromJson(br, CSVContact[].class);
-            List<CSVContact> csvlist=Arrays.asList(usrobj);
-       }catch (Exception e) {
+            for(Contact c: list) {
+                obj.put("First name: ", c.getFirstName());
+                obj.put("Last name: ",c.getLastName());
+                obj.put("Address: ",c.getAddress());
+                obj.put("City: ", c.getCity());
+                obj.put("State: ", c.getState());
+                obj.put("Zipcode: ", c.getZip());
+                obj.put("Phone-number: ", c.getPhoneNumber());
+                obj.put("Email: ", c.getEmail());
+                FileWriter writer=new FileWriter(json_file);
+                writer.write(obj.toJSONString());
+                writer.flush();
+            }
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
